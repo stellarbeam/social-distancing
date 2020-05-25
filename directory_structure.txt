@@ -1,0 +1,8 @@
+.
+├── assets
+│   ├── yolov3.cfg
+│   └── yolov3.weights
+├── directory_structure.txt
+└── main.py
+
+1 directory, 4 files
