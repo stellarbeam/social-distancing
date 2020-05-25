@@ -1,6 +1,13 @@
 import cv2
 import numpy as np
 import math
+import argparse
+
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--input", default=0,
+	help="path to optional input video file")
+args = vars(ap.parse_args())
 
 confThreshold = 0.7 
 nmsThreshold = 0.4 
@@ -52,6 +59,8 @@ def postprocess(frame, detections):
         resBoxes.append([startX, startY, endX, endY])
         footmarks.append((footmarkX, footmarkY))
 
+    if len(heights) == 0: heights = [0]
+
     return resBoxes, footmarks, int(np.average(heights))
 
 # Get the names of the output layers
@@ -70,7 +79,7 @@ def areClose(fm1, fm2, avg_height_px):
 
     return math.sqrt( (fm1[0]-fm2[0])**2 + (fm1[1]-fm2[1])**2 ) < safe_dist_px
 
-vs = cv2.VideoCapture("/home/stellarbeam/python/people-counting-opencv/videos/TownCentreXVID.avi")
+vs = cv2.VideoCapture(args["input"])
 
 while True:
     ret, frame = vs.read()
